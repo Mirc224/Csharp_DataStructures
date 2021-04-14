@@ -1,4 +1,5 @@
 ﻿using Csharp_data_structures.DataStructures.PairingHeap;
+using Csharp_data_structures.DataStructures.SortedTable;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,39 +40,61 @@ namespace Csharp_data_structures
                 Console.WriteLine("Je to null");
             }
             Console.WriteLine(tmpHeap.Peek);*/
-            Random gen = new Random();
-            int numberOfTests = 100000;
+            /*            Random gen = new Random();
+                        int numberOfTests = 100000;
 
-            double probabilityOfInsert = 0.5;
+                        double probabilityOfInsert = 0.5;
 
-            int cislo = -1;
-            int inserts = 0;
-            int geters = 0;
-            for (int i = 0; i < numberOfTests; ++i)
-            {
-                if (gen.NextDouble() < probabilityOfInsert)
-                {
-                    cislo = gen.Next(100);
-                    tmpHeap.Insert(cislo, cislo);
-                    realPriority.Add(cislo);
-                    ++inserts;
-                }
-                else
-                {
-                    if (realPriority.Count != 0)
-                    {
-                        ++geters;
-                        int minimal = realPriority.Min();
-                        if (minimal != tmpHeap.GetMin())
+                        int cislo = -1;
+                        int inserts = 0;
+                        int geters = 0;
+                        for (int i = 0; i < numberOfTests; ++i)
                         {
-                            Console.WriteLine("Chyba!");
-                            return;
+                            if (gen.NextDouble() < probabilityOfInsert)
+                            {
+                                cislo = gen.Next(100);
+                                tmpHeap.Insert(cislo, cislo);
+                                realPriority.Add(cislo);
+                                ++inserts;
+                            }
+                            else
+                            {
+                                if (realPriority.Count != 0)
+                                {
+                                    ++geters;
+                                    int minimal = realPriority.Min();
+                                    if (minimal != tmpHeap.GetMin())
+                                    {
+                                        Console.WriteLine("Chyba!");
+                                        return;
+                                    }
+                                    realPriority.Remove(minimal);
+                                }
+                            }
                         }
-                        realPriority.Remove(minimal);
-                    }
-                }
+                        Console.WriteLine($"Inserts: {inserts}  Geters: {geters}");*/
+
+
+
+            var sortedTable = new SortedTable<int, int>();
+
+            sortedTable.Insert(5, 5);
+            sortedTable.Insert(3, 3);
+            sortedTable.Insert(2, 2);
+            sortedTable.Insert(6, 6);
+            sortedTable.Insert(8, 8);
+            
+            sortedTable.CutOff(1,3);
+            sortedTable.Remove(6);
+            sortedTable.Insert(3, 3);
+            foreach (var item in sortedTable)
+            {
+                Console.WriteLine(item);
             }
-            Console.WriteLine($"Inserts: {inserts}  Geters: {geters}");
+
+
+
+
             /*realPriority.Sort();
             foreach (var item in realPriority)
             {
