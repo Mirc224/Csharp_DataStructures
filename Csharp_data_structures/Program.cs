@@ -18,8 +18,103 @@ namespace Csharp_data_structures
         static void Main(string[] args)
         {
             //var tmpHeap = new PriorityHeap<int, int, string>();
-            var tmpHeap = new PairingHeap<int, int>();
-            var realPriority = new List<int>();
+            //var tmpHeap = new PairingHeap<int, int>();
+            //var realPriority = new List<int>();
+            KD_Tree.KDTree<double, double, double> kDTree = new KD_Tree.KDTree<double, double, double>(2);
+
+            List<KeyValuePair<KeyValuePair<double, double>, double>> zoznam = new List<KeyValuePair<KeyValuePair<double, double>, double>>();
+            Random gen = new Random();
+
+            double result;
+            double cordX;
+            double cordY;
+
+            int generatedIndex;
+            KeyValuePair<KeyValuePair<double, double>, double> prvok;
+            bool naslo;
+
+            for (int i = 0; i < 10000; ++i)
+            {
+                if(gen.NextDouble() < 0.55)
+                {
+                    result = i;
+                    cordX = i;
+                    cordY = i;
+                    result = gen.Next(10);
+                    cordX = gen.NextDouble() * 10;
+                    cordY = gen.NextDouble() * 10;
+                    zoznam.Add(new KeyValuePair<KeyValuePair<double, double>, double>(key: new KeyValuePair<double, double>(key: cordX, value: cordY), value: result));
+
+                    kDTree.Insert(new double[] { cordX, cordY }, result, result);
+                }
+                else
+                {
+                    if(zoznam.Count != 0)
+                    {
+                        generatedIndex = gen.Next(zoznam.Count);
+                        prvok = zoznam[generatedIndex];
+                        zoznam.RemoveAt(generatedIndex);
+                        var najdene = kDTree.FindData(new double[] { prvok.Key.Key, prvok.Key.Value });
+                        naslo = false;
+                        foreach (var vysledok in najdene)
+                        {
+                            if (vysledok == prvok.Value)
+                            {
+                                naslo = true;
+                                break;
+                            }
+                        }
+                        if (naslo != true)
+                        {
+                            Console.WriteLine("Chyba!");
+                        }
+                        else
+                        {
+                            if (kDTree.Delete(new double[] { prvok.Key.Key, prvok.Key.Value }, prvok.Value) != prvok.Value)
+                            {
+                                Console.WriteLine("Nezmazalo!!");
+                            }
+                        }
+                    }
+                }
+            }
+
+/*            foreach(var nieco in kDTree)
+            {
+                Console.WriteLine(nieco.ToString());
+            }*/
+
+            while (zoznam.Count != 0)
+            {
+                generatedIndex = gen.Next(zoznam.Count);
+                prvok = zoznam[generatedIndex];
+                zoznam.RemoveAt(generatedIndex);
+                var najdene = kDTree.FindData(new double[] { prvok.Key.Key, prvok.Key.Value });
+                naslo = false;
+                foreach(var vysledok in najdene)
+                {
+                   if(vysledok == prvok.Value)
+                    {
+                        naslo = true;
+                        break;
+                    }
+                }
+                if(naslo != true)
+                {
+                    Console.WriteLine("Chyba!");
+                }
+                else
+                {
+                    if(kDTree.Delete(new double[] { prvok.Key.Key, prvok.Key.Value }, prvok.Value) != prvok.Value)
+                    {
+                        Console.WriteLine("Nezmazalo!!");
+                    }
+                }
+                
+            }
+
+            if(kDTree.Count != zoznam.Count)
+                Console.WriteLine("Zly pocet!!!");
             /*int cislo1 = -1;
             int cislo2 = -1;
             var gen = new Random();
@@ -76,7 +171,7 @@ namespace Csharp_data_structures
 
 
 
-            var sortedTable = new SortedTable<int, int>();
+            /*var sortedTable = new SortedTable<int, int>();
 
             sortedTable.Insert(5, 5);
             sortedTable.Insert(3, 3);
@@ -91,7 +186,7 @@ namespace Csharp_data_structures
             {
                 Console.WriteLine(item);
             }
-
+*/
 
 
 
